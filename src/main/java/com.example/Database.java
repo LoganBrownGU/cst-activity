@@ -8,7 +8,7 @@ import java.util.HashMap;
 
 public class Database {
     
-    private void writeToFile(String textToWrite) {
+    private static void writeToFile(String textToWrite) {
         try {
             FileWriter fw = new FileWriter(new File("database.csv"));
             fw.append(textToWrite);
@@ -17,14 +17,14 @@ public class Database {
         }
     }
 
-    private HashMap<String, String[]> readFile() {
+    private static HashMap<String, String> readFile() {
         try {
             BufferedReader reader = new BufferedReader(new FileReader("database.csv"));
-            HashMap<String, String[]> map = new HashMap<>();
+            HashMap<String, String> map = new HashMap<>();
             while (reader.ready()) {
                 String line = reader.readLine();
                 String[] parts = line.split(",");
-                map.put(parts[0], new String[] {parts[1], parts[2]});
+                map.put(parts[0], parts[1]);
             }
 
             return map;
@@ -35,19 +35,34 @@ public class Database {
         return null;
     }
 
-    public boolean addUser(String userID, String accountNumber, String passwordHash) {
+    public static boolean addUser(String accountNumber, String passwordHash) {
 
-        String line = userID + "," + accountNumber + "," + passwordHash;
+        String line = accountNumber + "," + passwordHash;
         writeToFile(line);
 
         return true;
     }
 
-    public boolean removeUser(String userID) {
-        HashMap<String, String[]> users = readFile();
+    public static String getHash(String accountNumber) {
+        HashMap<String, String> users = readFile();
+        
+        return users.get(accountNumber);
+    }
 
-        if (users.get(userID) != null) {
-            users.remove(userID);
+    public static String nextAccountNumber() {
+        HashMap<String, String> users = readFile();
+        int max = 0;
+        for (String accountNumber: users.values()) 
+            max = Math.max(max, Integer.parseInt(accountNumber));
+        
+        return Integer.toString(max);
+    }
+
+    public static boolean removeUser(String accountNumber) {
+        HashMap<String, String> users = readFile();
+
+        if (users.get(accountNumber) != null) {
+            users.remove(accountNumber);
             return true;
         }
 
