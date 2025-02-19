@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 import com.example.SecureHashing;
 
-import main.java.com.example.Database;
+import com.example.Database;
 
 public class Session {
 
@@ -38,10 +38,14 @@ public class Session {
     }
 
     private static void signup() {
-        String password = getPassword();
-        String accountNumber = Database.nextAccountNumber();
+        String accountNumber;
+        String password;
+        do {
+            password = getPassword();
+            accountNumber = Database.nextAccountNumber();
+        } while (!Database.addUser(accountNumber, hasher.hash(password)));
 
-        Database.addUser(accountNumber, hasher.hash(password));        
+        System.out.println("Your new account number is: " + accountNumber);
     }
 
     public static void entry() {
