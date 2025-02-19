@@ -1,17 +1,17 @@
 package com.example;
 
 import java.util.Arrays;
-import java.util.Set;
+import java.util.Collection;
 
 public class AccountNumberGenerator {
     private int nextNumber = 0;
     private boolean initialised = false;
 
-    public void initialise(Set<String> accountNumbers) {
+    public void initialise(Collection<String> accountNumbers) {
 
         int max = 0;
         for (String accountNumber: accountNumbers)
-            max = Math.max(max, Integer.parseInt(cleanNumber));
+            max = Math.max(max, Integer.parseInt(accountNumber));
 
         
         this.nextNumber = max + 1;
