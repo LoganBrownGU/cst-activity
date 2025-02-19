@@ -48,6 +48,9 @@ public class Database {
     public static String getHash(String accountNumber) {
         HashMap<String, String> users = readFile();
         
+        String hash = users.get(accountNumber);
+        if (hash != null && !hash.matches("[A-Za-z0-9]+")) throw new RuntimeException("Bad hash");
+
         return users.get(accountNumber);
     }
 
