@@ -7,12 +7,12 @@ import com.example.SecureHashing;
 
 class Main {
 
-    private static void signup() {
+    private static void signup(AccountNumberGenerator generator) {
         String accountNumber;
         String password;
         do {
             password = Helper.getPassword();
-            accountNumber = Database.nextAccountNumber();
+            accountNumber = generator.nextAccountNumber();
         } while (!Database.addUser(accountNumber, SecureHashing.hash(password)));
 
         System.out.println("Your new account number is: " + accountNumber);
@@ -34,15 +34,20 @@ class Main {
         System.out.println("Start");
         Scanner sc = new Scanner(System.in);
 
-        String input = "";
-        while (!input.equals("login") && !input.equals("signup")) {
-            System.out.print("login or signup?: ");
-            input = sc.nextLine();
-        }
+        AccountNumberGenerator generator = new AccountNumberGenerator();
+        generator.initialise(Database.getAccountNumbers());
 
-        if (input.equals("signup")) signup();
-        
-        login();
-        System.out.println("You are logged in");
+        while (true) {
+            String input = "";
+            while (!input.equals("login") && !input.equals("signup")) {
+                System.out.print("login or signup?: ");
+                input = sc.nextLine();
+            }
+
+            if (input.equals("signup")) signup(generator);
+            
+            login();
+            System.out.println("You are logged in");
+        }
     }
 }

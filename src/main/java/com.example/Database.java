@@ -8,6 +8,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
+import java.util.Set;
 
 public class Database {
     
@@ -50,15 +51,10 @@ public class Database {
         return users.get(accountNumber);
     }
 
-    public static String nextAccountNumber() {
+    public static Set<String> getAccountNumbers() {
         HashMap<String, String> users = readFile();
-        if (users == null) return "0";
 
-        int max = 0;
-        for (String accountNumber: users.keySet()) 
-            max = Math.max(max, Integer.parseInt(accountNumber));
-        
-        return Integer.toString(max + 1);
+        return users.keySet();
     }
 
     public static boolean removeUser(String accountNumberToRemove) {
