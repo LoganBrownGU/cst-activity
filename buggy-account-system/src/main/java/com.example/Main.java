@@ -24,7 +24,7 @@ class Main {
         String hash;
 
         do {
-            accountNumber = Helper.getAccountNumber();
+            accountNumber = Helper.insertDots(Helper.getAccountNumber());
             password = Helper.getPassword();
             hash = Database.getHash(accountNumber);
         } while (hash == null || !SecureHashing.hash(password).equals(hash));

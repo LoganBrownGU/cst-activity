@@ -1,5 +1,6 @@
 package com.example;
 
+import java.util.Arrays;
 import java.util.Set;
 
 public class AccountNumberGenerator {
@@ -13,8 +14,10 @@ public class AccountNumberGenerator {
         }
 
         int max = 0;
-        for (String accountNumber: accountNumbers)
-            max = Math.max(max, Integer.parseInt(accountNumber));
+        for (String accountNumber: accountNumbers) {
+            String cleanNumber = Helper.removeDots(accountNumber);
+            max = Math.max(max, Integer.parseInt(cleanNumber));
+        }
         
         this.nextNumber = max + 1;
         this.initialised = true;
@@ -23,6 +26,10 @@ public class AccountNumberGenerator {
     public String nextAccountNumber() {
         if (!this.initialised) throw new IllegalStateException("Generator not initialised");
 
-        return Integer.toString(this.nextNumber++);
+        String unformattedNumber = Integer.toString(this.nextNumber++);
+        while (unformattedNumber.length() < 8)
+            unformattedNumber = "0" + unformattedNumber;
+
+        return Helper.insertDots(unformattedNumber);
     }
 }

@@ -1,5 +1,6 @@
 package com.example;
 
+import java.util.Arrays;
 import java.util.Scanner;
 
 import com.example.SecureHashing;
@@ -9,7 +10,18 @@ import com.example.Database;
 public class Helper {
 
     private static final Scanner sc = new Scanner(System.in);
-    private static final SecureHashing hasher = new SecureHashing();
+
+    public static String insertDots(String str) {
+        String number = "";
+        for (char c: str.toCharArray()) 
+            number += c + ".";
+
+        return number.substring(0, number.length() - 1);
+    }
+
+    public static String removeDots(String str) {
+        return String.join("", str.split("\\."));
+    }
 
     public static boolean checkPasswordValid(String password) {
         if (password.length() < 8) return false;
