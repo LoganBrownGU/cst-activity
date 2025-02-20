@@ -24,6 +24,7 @@ public class Helper {
     }
 
     public static boolean checkPasswordValid(String password) {
+        if (password.length() < 8) return false;
         
         boolean containsSpecial = false;
         for (char c: password.toCharArray())
